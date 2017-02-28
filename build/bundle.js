@@ -23914,6 +23914,7 @@ var styles = _aphrodite.StyleSheet.create({
 		width: "calc(100% - 10px)",
 		textAlign: "left",
 		padding: "20px 10px",
+		marginLeft: "0px",
 		backgroundColor: "#fff",
 		margin: "5px 0",
 		cursor: "pointer",
@@ -24175,7 +24176,8 @@ var Left = function (_Component3) {
 					"div",
 					{ style: {
 							height: "calc(100% - 50px)",
-							overflowY: "scroll"
+							overflowY: "scroll",
+							margin: "5px"
 						} },
 					_react2.default.createElement(
 						"span",

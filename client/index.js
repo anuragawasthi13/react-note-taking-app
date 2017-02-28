@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
 		width: "calc(100% - 10px)",
 		textAlign: "left",
 		padding: "20px 10px",
+		marginLeft: "0px",
 		backgroundColor: "#fff",
 		margin: "5px 0",
 		cursor: "pointer",
@@ -218,7 +219,8 @@ class Left extends Component{
 			}}>
 				<div style = {{
 					height: "calc(100% - 50px)",
-					overflowY: "scroll"
+					overflowY: "scroll",
+					margin: "5px"
 				}}>
 				<span style = {{
 					display: "block",

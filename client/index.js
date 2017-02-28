@@ -45,11 +45,84 @@ const styles = StyleSheet.create({
 	}
 });
 
+
+class ShowWarning extends Component{
+	render(){
+		const style1 = {
+			display: "flex",
+			alignItems: "center",
+			justifyContent: "center",
+			flexDirection: "column",
+			position: "fixed",
+			width: "300px",
+			height: "300px",
+			border: "2px solid #888",
+			top: "50%",
+			left: "50%",
+			transform: this.props.showWarning ? "translate(-50%, -50%)" : "translate(-50%, -250%)",
+			opacity: this.props.showWarning ? "1" : "0.4",
+			backgroundColor: "#fff",
+			zIndex: "5",
+			transition: "all 0.5s"
+		}
+
+		const style2={
+			position: "fixed",
+			top: "0",
+			left: "0",
+			bottom: "0",
+			right: "0",
+			backgroundColor: "#fff",
+			opacity: "0.7",
+			transition: "all 0.5s"
+		}
+
+		return(
+			<div>
+				<div style = {style1}>
+					<span
+						style = {{
+							display: "block",
+							margin: "5px"
+						}}
+					>
+						Are you sure to delete this note?
+					</span>
+					<button
+						style = {{
+							display: "block",
+							margin: "5px"
+						}}
+						className = {css(styles.smallButton)}
+						onClick = {this.props.handleDeleteClick}
+					>
+						Delete
+					</button>
+
+					<button
+						className = {css(styles.smallButton)}
+						style = {{
+							display: "block",
+							margin: "5px"
+						}}
+						onClick = {this.props.handleCancelClick}
+					>
+						Cancel
+					</button>
+				</div>
+
+				{this.props.showWarning && <div style={style2}></div>}
+			</div>
+		);
+	}
+}
+
 class NoteTitle extends Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			display: "none"
+			display: "none",
+			showWarning: false
 		}
 	}
 
@@ -63,6 +136,30 @@ class NoteTitle extends Component{
 		this.setState({
 			display: "none"
 		});
+	}
+
+	handleClick(e){
+		console.log(e);
+		e.stopPropagation();
+		this.setState({
+			showWarning: true
+		})
+	}
+
+	handleDeleteClick(id, p, e){
+		console.log(arguments);
+		e.stopPropagation();
+		this.props.deleteNote(id, e);
+		this.setState({
+			showWarning: false
+		})
+	}
+
+	handleCancelClick(e){
+		e.stopPropagation();
+		this.setState({
+			showWarning: false
+		})
 	}
 
 	render(){
@@ -86,10 +183,14 @@ class NoteTitle extends Component{
 						padding: "5px",
 						fontSize: "10px"
 					}}
-					onClick = {this.props.deleteNote.bind(this, note.id)}
+					//onClick = {this.props.deleteNote.bind(this, note.id)}
+					onClick = {this.handleClick.bind(this)}
 				>
 					Delete
 				</button>
+
+				<ShowWarning showWarning = {this.state.showWarning} handleDeleteClick = {this.handleDeleteClick.bind(this, note.id)} handleCancelClick = {this.handleCancelClick.bind(this)} />
+
 			</div>
 		);
 	}
@@ -424,7 +525,8 @@ class App extends Component {
 			return true;
 		});
 
-		if(this.state.id === id){
+		if(this.state.id == id){
+			console.log("this should print");
 			this.setState({
 				id: null,
 				note: null,
